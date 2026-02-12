@@ -18,7 +18,8 @@ const io = new Server(server, {
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(__dirname));
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
 
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
