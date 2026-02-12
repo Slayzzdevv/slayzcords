@@ -28,6 +28,12 @@ app.use('/api/users', require('./routes/users'));
 
 // Create default General server if not exists
 function ensureDefaults() {
+      const systemUser = db.prepare('SELECT id FROM users WHERE id = ?').get('system');
+      if (!systemUser) {
+            db.prepare('INSERT INTO users (id, username, email, password, status) VALUES (?, ?, ?, ?, ?)').run('system', 'System', 'system@slayzcord.local', 'system', 'offline');
+            console.log('System user created');
+      }
+
       const general = db.prepare('SELECT id FROM servers WHERE name = ?').get('General');
       if (!general) {
             const serverId = uuidv4();
